@@ -1,7 +1,10 @@
-const { selectDB } = require('../controllers/DB.controllers');
+const bcrypt = require('bcryptjs');
+const { selectDB, selectWhereEmail } = require('../controllers/DB.controllers');
 
+//TODO: modularizar regex
+//REGISTER
 //Unique email from DB
-const isValidEmail = async (email) => {
+const isUniqueEmail = async (email) => {
 
     let isUniqueEmail = await selectDB("name", "surname", "email", "age", "password");
 
@@ -22,7 +25,7 @@ const isValidAge = (age) => {
     if (age < 16) { throw new Error('You must be over 16 years old') };
 
     const validAge = ageRegex.test(age);
-    if (!validAge) { throw new Error('your age must be between 16 and 99') };
+    if (!validAge) { throw new Error('Your age must be between 16 and 99') };
 
     return true;
 }
@@ -31,11 +34,12 @@ const isValidAge = (age) => {
 const isValidPassword = (password, req) => {
     let userName = req.body.name;
     let userSurame = req.body.surname;
+    let userEmail = req.body.email;
 
     //Password: lowercase, uppercase, number, special character, min: 8, max: 25
     const digitPassRegex = /[0-9]/;
     const specialCRegex = /[!@#$%^&*]/;
-    const upperAndlowerRegex = /[a-z][A-Z]/;
+    const upperAndlowerRegex = /(?=.*[a-z])(?=.*[A-Z])/;
 
     //Password exist & password length 
     if (!password) { throw new Error('You must set a password') };
@@ -43,6 +47,7 @@ const isValidPassword = (password, req) => {
     if (password.length > 25) { throw new Error('the password must be 25 characters or less') };
     if (userName === password) { throw new Error('The password must be different from the name') };
     if (userSurame === password) { throw new Error('The password must be different from the surname') };
+    if (userEmail === password) { throw new Error('The password must be different from the email') };
 
     //Digit validation
     const validDigitRegex = digitPassRegex.test(password);
@@ -59,12 +64,74 @@ const isValidPassword = (password, req) => {
     return true;
 }
 
+//Name validation
+const isValidName = (name) => {
+    const specialCRegex = /(?=.*[!@#$%^&*])/;
+    const firstLetterRegex = /^[a-zA-Z]/;
 
+    if (!name) { throw new Error('You must set a name') };
+    if (name.length > 50) { throw new Error('Name must be less than 50 characters') };
 
+    //special caracters validation
+    const validspecialCRegex = specialCRegex.test(name);
+    if (validspecialCRegex) { throw new Error('Name must not contain special characters') }
+
+    const validFirstLetter = firstLetterRegex.test(name);
+    if (!validFirstLetter) { throw new Error('The name must start with a letter') }
+
+    return true;
+}
+//Surname validation
+const isValidSurname = (surname) => {
+    const numbersRegex = /\d/;
+    const specialCRegex = /(?=.*[!@#$%^&*])/;
+    const firstLetterRegex = /^[a-zA-Z]/;
+
+    if (!surname) { throw new Error('You must set a surname') };
+    if (surname.length > 50) { throw new Error('Surname must be less than 50 characters') };
+
+    const validspecialCRegex = specialCRegex.test(surname);
+    if (validspecialCRegex) { throw new Error('Surname must not contain special characters') };
+
+    const validFirstLetter = firstLetterRegex.test(surname);
+    if (!validFirstLetter) { throw new Error('The surname must start with a letter') };
+
+    const validNumber = numbersRegex.test(surname);
+    if (validNumber) { throw new Error('The surname must not contain a number') };
+
+    return true;
+}
+
+//LOGIN
+//Email exist in DB
+const emailInDB = async (email) => {
+    const user = await selectWhereEmail(email);
+
+    if (user.rows.length == 0) { throw new Error('Email not registered') };
+
+    return true;
+}
+
+//Compare password's user
+const isSamePassword = async (password, req) => {
+    const email = req.body.email;
+    const user = await selectWhereEmail(email);
+
+    if (user.rows.length == 0) { throw new Error('Email not exist') }
+    if (!await bcrypt.compare(password, user.rows[0].password)) {
+        throw new Error('Contraseña incorrecta');
+    }
+
+    return true;
+}
 
 
 module.exports = {
-    isValidEmail,
+    isValidName,
+    isValidSurname,
+    isUniqueEmail,
     isValidAge,
     isValidPassword,
+    emailInDB,
+    isSamePassword
 }

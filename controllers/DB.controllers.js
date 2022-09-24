@@ -24,8 +24,13 @@ const insertDB = async (a, b, c, d, e) => {
     }
 }
 
+const selectWhereEmail = async (condition) => {
+    const text = `SELECT "name", "surname", "email", "age", "password" FROM users WHERE email = '${condition}'`;
+    return await client.query(text);
+}
 
 module.exports = {
     selectDB,
-    insertDB
+    insertDB,
+    selectWhereEmail
 }

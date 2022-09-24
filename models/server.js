@@ -36,8 +36,7 @@ class Server {
 
         //Directorio público
         this.app.use(express.static('views'));
-        this.app.set('view engine', 'html');
-        this.app.engine('html', require('hbs').__express);
+        this.app.set('view engine', 'ejs');
     }
 
     routes() {

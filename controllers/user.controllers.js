@@ -1,21 +1,31 @@
 const bcrypt = require('bcryptjs');
 const { response, request } = require('express'); //Autollenado VSCode
 
-const { selectDB, insertDB } = require('./DB.controllers');
+const { selectDB, insertDB, selectWhereEmail } = require('./DB.controllers');
 
-//get
+
+//GET
+//TODO: delete usersGet
 const usersGet = async (req = request, res = response) => {
     //SE NECESITAN TODOS LOS PARAMETROS POR EL MOMENTO....
     let dbRes = await selectDB("name", "surname", "email", "age", "password");
 
-    res.send(dbRes.rows)
+    res.status(200).send(dbRes.rows);
 };
 
-//post 
+//Login user POST
+const userLogin = async (req, res) => {
+    const { email } = req.body;
+    const user = await selectWhereEmail(email);
+    //TODO: req.sessions...
+    res.status(200).send({ "msg": "Session start" });
+};
+
+//Register user POST
 const usersPost = async (req = request, res = response) => {
 
     let { name, surname, email, age, password } = req.body
-
+    //TODO: req.sessions...
     //Encoding password
     const salt = bcrypt.genSaltSync(10);
     password = bcrypt.hashSync(password, salt);
@@ -24,14 +34,19 @@ const usersPost = async (req = request, res = response) => {
     await insertDB(name, surname, email, age, password);
 
     //Response
-    res.send({
+    res.status(201).send({
         name,
         surname,
         email,
         age,
         password,
     });
-}
+};
+
+const userLogOut = async (req, res) => {
+    req.session.destroy();
+    res.status(200).redirect("/users");
+};
 
 
 
@@ -39,12 +54,19 @@ const usersPost = async (req = request, res = response) => {
 
 
 //contenido estático 
+const sendIndex = (req, res) => {
+    res.status(200).render('index');
+};
 const sendLogin = (req, res) => {
-    res.render('login')
-}
+    res.status(200).render('login');
+};
 const sendRegister = (req, res) => {
-    res.render('register')
-}
+    res.status(200).render('register');
+};
+const sendHome = (req, res) => {
+    //TODO: req.sessions...
+    res.status(200).render('home');
+};
 
 
 
@@ -52,8 +74,12 @@ const sendRegister = (req, res) => {
 
 
 module.exports = {
-    usersGet,
-    usersPost,
+    sendIndex,
+    sendLogin,
     sendRegister,
-    sendLogin
+    sendHome,
+    usersGet,
+    userLogin,
+    usersPost,
+    userLogOut,
 }
