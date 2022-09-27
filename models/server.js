@@ -41,7 +41,7 @@ class Server {
 
         //Start express-sessions
         this.app.use(session({
-            secret: 'TODO: process.env.SECRET',
+            secret: process.env.SECRET,
             resave: false,
             saveUninitialized: false,
         }));
