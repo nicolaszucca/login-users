@@ -1,7 +1,12 @@
 const bcrypt = require('bcryptjs');
 const { selectDB, selectWhereEmail } = require('../controllers/DB.controllers');
 
-//TODO: modularizar regex
+
+const digitPassRegex = /\d/;
+const specialCRegex = /(?=.*[!@#$%^&*])/;
+const firstLetterRegex = /^[a-zA-Z]/;
+
+
 //REGISTER
 //Unique email from DB
 const isUniqueEmail = async (email) => {
@@ -37,11 +42,9 @@ const isValidPassword = (password, req) => {
     let userEmail = req.body.email;
 
     //Password: lowercase, uppercase, number, special character, min: 8, max: 25
-    const digitPassRegex = /[0-9]/;
-    const specialCRegex = /[!@#$%^&*]/;
     const upperAndlowerRegex = /(?=.*[a-z])(?=.*[A-Z])/;
 
-    //Password exist & password length 
+    //Password exist, password length, different from: name, surname and email
     if (!password) { throw new Error('You must set a password') };
     if (password.length < 8) { throw new Error('the password must have at least 8 characters') };
     if (password.length > 25) { throw new Error('the password must be 25 characters or less') };
@@ -66,9 +69,7 @@ const isValidPassword = (password, req) => {
 
 //Name validation
 const isValidName = (name) => {
-    const specialCRegex = /(?=.*[!@#$%^&*])/;
-    const firstLetterRegex = /^[a-zA-Z]/;
-
+    //Name: start with a letter, no special characters, max: 50
     if (!name) { throw new Error('You must set a name') };
     if (name.length > 50) { throw new Error('Name must be less than 50 characters') };
 
@@ -84,10 +85,7 @@ const isValidName = (name) => {
 
 //Surname validation
 const isValidSurname = (surname) => {
-    const numbersRegex = /\d/;
-    const specialCRegex = /(?=.*[!@#$%^&*])/;
-    const firstLetterRegex = /^[a-zA-Z]/;
-
+    //Surname: start with a letter, no special characters, no numbers, max: 50
     if (!surname) { throw new Error('You must set a surname') };
     if (surname.length > 50) { throw new Error('Surname must be less than 50 characters') };
 
@@ -97,7 +95,7 @@ const isValidSurname = (surname) => {
     const validFirstLetter = firstLetterRegex.test(surname);
     if (!validFirstLetter) { throw new Error('The surname must start with a letter') };
 
-    const validNumber = numbersRegex.test(surname);
+    const validNumber = digitPassRegex.test(surname);
     if (validNumber) { throw new Error('The surname must not contain a number') };
 
     return true;
