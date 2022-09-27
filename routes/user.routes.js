@@ -9,8 +9,6 @@ const { isValidAge, isValidPassword, isUniqueEmail, isValidName, isValidSurname,
 const router = express.Router();
 
 
-router.get('/get', usersGet);
-
 router.post('/login', [
     check('email', 'Invalid email').isEmail(),
     check('email').custom(email => emailInDB(email)),

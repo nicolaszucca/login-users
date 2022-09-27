@@ -1,17 +1,8 @@
 const bcrypt = require('bcryptjs');
 const { response, request } = require('express'); //Autollenado VSCode
 
-const { selectDB, insertDB, selectWhereEmail } = require('./DB.controllers');
+const { insertDB, selectWhereEmail } = require('./DB.controllers');
 
-
-//GET
-//TODO: delete usersGet
-const usersGet = async (req = request, res = response) => {
-    //SE NECESITAN TODOS LOS PARAMETROS POR EL MOMENTO....
-    let dbRes = await selectDB("name", "surname", "email", "age", "password");
-
-    res.status(200).send(dbRes.rows);
-};
 
 //Login user POST
 const userLogin = async (req, res) => {
@@ -44,8 +35,8 @@ const usersPost = async (req = request, res = response) => {
 };
 
 const userLogOut = async (req, res) => {
-    req.session.destroy();
-    res.status(200).redirect("/users");
+    // req.session.destroy();
+    res.status(200).redirect({ "msg": "Session end" });
 };
 
 
@@ -78,7 +69,6 @@ module.exports = {
     sendLogin,
     sendRegister,
     sendHome,
-    usersGet,
     userLogin,
     usersPost,
     userLogOut,

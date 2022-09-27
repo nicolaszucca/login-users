@@ -39,17 +39,6 @@ form.addEventListener('submit', async function (event) {
     }
 });
 
-//GET 
-botonGet.addEventListener('click', () => {
-    fetch('http://localhost:8080/users/get')
-        .then(data => {
-            return data.json();
-        })
-        .then(post => {
-            console.log(post);
-        });
-});
-
 
 
 function convertFormDataToObj(data) {
@@ -80,7 +69,7 @@ function createAndShowMsg(user = 0, msg = 0) {
         let createPElement = document.createElement("p");
         createPElement.classList.add('data-response');
         createPElement.textContent = msg;
-        pResponse.appendChild(createPElement)
+        pResponse.appendChild(createPElement);
     };
 };
 
@@ -103,7 +92,7 @@ function controllerErrorsResponse(user, count) {
         removeErrors();
         createAndShowMsg(0, 'creado exitosamente!');
         setTimeout(function () {
-            window.location = 'http://localhost:8080/users/home'
+            window.location = 'http://localhost:8080/users/home';
         }, 1000);
     };
 };
