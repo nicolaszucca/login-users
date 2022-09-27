@@ -1,14 +1,12 @@
 const client = require('../database/client.DB');
 
 
-//Se necesitan pasar TODOS los parametros...
 //Get from DB
-const selectDB = async (a, b, c, d, e) => {
+const selectDB = async () => {
 
-    const text = `SELECT ${a}, ${b}, ${c}, ${d}, ${e} FROM users;`
-    let dbRes;
+    const text = `SELECT "email" FROM users;`
 
-    return dbRes = await client.query(text);
+    return await client.query(text);
 }
 
 //Save in DB
@@ -18,15 +16,20 @@ const insertDB = async (a, b, c, d, e) => {
     const values = [a, b, c, d, e];
 
     try {
-        return dbRes = await client.query(text, values);
+        return await client.query(text, values);
     } catch (err) {
-        throw new Error(err)
+        throw new Error(err);
     }
 }
 
 const selectWhereEmail = async (condition) => {
     const text = `SELECT "name", "surname", "email", "age", "password" FROM users WHERE email = '${condition}'`;
-    return await client.query(text);
+
+    try {
+        return await client.query(text);
+    } catch (error) {
+        throw new Error(err);
+    }
 }
 
 module.exports = {

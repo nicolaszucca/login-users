@@ -6,14 +6,14 @@ const { selectDB, selectWhereEmail } = require('../controllers/DB.controllers');
 //Unique email from DB
 const isUniqueEmail = async (email) => {
 
-    let isUniqueEmail = await selectDB("name", "surname", "email", "age", "password");
+    let emails = await selectDB();
 
-    isUniqueEmail.rows.forEach(user => {
-        if (user.email === email) {
+    emails.rows.forEach(userEmail => {
+        if (userEmail.email === email) {
             throw new Error(`The email: "${email}" is alredy registered`);
         }
     });
-}
+};
 
 //Age validation
 const isValidAge = (age) => {
@@ -28,7 +28,7 @@ const isValidAge = (age) => {
     if (!validAge) { throw new Error('Your age must be between 16 and 99') };
 
     return true;
-}
+};
 
 //Password validation
 const isValidPassword = (password, req) => {
@@ -62,7 +62,7 @@ const isValidPassword = (password, req) => {
     if (!validUpperAndLowerRegex) { throw new Error('The password must contain uppercase and lowercase') };
 
     return true;
-}
+};
 
 //Name validation
 const isValidName = (name) => {
@@ -80,7 +80,8 @@ const isValidName = (name) => {
     if (!validFirstLetter) { throw new Error('The name must start with a letter') }
 
     return true;
-}
+};
+
 //Surname validation
 const isValidSurname = (surname) => {
     const numbersRegex = /\d/;
@@ -100,7 +101,7 @@ const isValidSurname = (surname) => {
     if (validNumber) { throw new Error('The surname must not contain a number') };
 
     return true;
-}
+};
 
 //LOGIN
 //Email exist in DB
@@ -110,7 +111,7 @@ const emailInDB = async (email) => {
     if (user.rows.length == 0) { throw new Error('Email not registered') };
 
     return true;
-}
+};
 
 //Compare password's user
 const isSamePassword = async (password, req) => {
@@ -123,7 +124,7 @@ const isSamePassword = async (password, req) => {
     }
 
     return true;
-}
+};
 
 
 module.exports = {
