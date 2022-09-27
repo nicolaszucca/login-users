@@ -11,10 +11,18 @@
 <body>
     <h1>HOME PAGE</h1>
 
-    <button id="btn-logout">Logout</button>
-    <p></p>
-    <a href="/users">Inicio</a>
-    <a href="/users/login">log in</a>
+    <% if (name) { %>
+        <p> Connected user: <%= name %>
+        </p>
+        <button id="btn-logout">Logout</button>
+        <%} else { %>
+            <p> You must log in </p>
+            <a href="/users/login">log in</a>
+            <a href="/users">Inicio</a>
+            <% } %>
+
+
+                <script src="/js/home.js"></script>
 </body>
 
 </html>

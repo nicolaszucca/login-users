@@ -8,15 +8,19 @@ const { insertDB, selectWhereEmail } = require('./DB.controllers');
 const userLogin = async (req, res) => {
     const { email } = req.body;
     const user = await selectWhereEmail(email);
-    //TODO: req.sessions...
+
+    req.session.name = user.rows[0].name;
+
     res.status(200).send({ "msg": "Session start" });
 };
 
 //Register user POST
 const usersPost = async (req = request, res = response) => {
 
-    let { name, surname, email, age, password } = req.body
-    //TODO: req.sessions...
+    let { name, surname, email, age, password } = req.body;
+
+    req.session.name = name;
+
     //Encoding password
     const salt = bcrypt.genSaltSync(10);
     password = bcrypt.hashSync(password, salt);
@@ -35,8 +39,8 @@ const usersPost = async (req = request, res = response) => {
 };
 
 const userLogOut = async (req, res) => {
-    // req.session.destroy();
-    res.status(200).redirect({ "msg": "Session end" });
+    req.session.destroy();
+    res.status(200).send({ "msg": "Session end" });
 };
 
 
@@ -55,8 +59,10 @@ const sendRegister = (req, res) => {
     res.status(200).render('register');
 };
 const sendHome = (req, res) => {
-    //TODO: req.sessions...
-    res.status(200).render('home');
+    const name = req.session.name;
+    res.status(200).render('home', {
+        name
+    });
 };
 
 

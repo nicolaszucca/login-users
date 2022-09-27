@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const session = require('express-session');
 
 const DataBase = require('./DB');
 
@@ -37,6 +38,13 @@ class Server {
         //Directorio público
         this.app.use(express.static('views'));
         this.app.set('view engine', 'ejs');
+
+        //Start express-sessions
+        this.app.use(session({
+            secret: 'TODO: process.env.SECRET',
+            resave: false,
+            saveUninitialized: false,
+        }));
     }
 
     routes() {
