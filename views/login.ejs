@@ -5,30 +5,37 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/styles/login-style.css">
     <title>Login</title>
 </head>
 
 <body>
-    <h2>LOGIN</h2>
-    <form id="dataForm" action="" method="">
+    <section>
+        <div class="img-background"></div>
+        <div class="data-form-container">
+            <h2>LOGIN</h2>
+            <form class="form-container" id="dataForm" action="" method="">
 
-        <div>
-            <label for="input-email">Email:</label>
-            <input id="input-email" name="transactionEmail" type="email" placeholder="Email...">
+                <div class="input-container">
+                    <input class="input" id="input-email" name="transactionEmail" type="email" placeholder="Email">
+                </div>
+
+                <div class="input-container">
+                    <input class="input" id="input-password" name="transactionPassword" type="password"
+                        placeholder="Password">
+                </div>
+
+                <button class="send-form-btn" id="button-form" type="submit">Log In</button>
+            </form>
+
+            <p class="paragraph-errors" id="errors"></p>
+
+            <p class="message">Not registered? <a href="/register">Create an account</a></p>
+
+
         </div>
-
-        <div>
-            <label for="input-password">Password:</label>
-            <input id="input-password" name="transactionPassword" type="password" placeholder="Password...">
-        </div>
-
-        <button id="button-form" type="submit">Send</button>
-
-        <p id="errors"></p>
-
-        <a href="/users">Inicio</a>
-
-        <script src="/js/login.js"></script>
+    </section>
+    <script src="/js/login.js"></script>
 </body>
 
 </html>
