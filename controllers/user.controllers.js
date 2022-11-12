@@ -49,9 +49,6 @@ const userLogOut = async (req, res) => {
 
 
 //contenido estático 
-const sendIndex = (req, res) => {
-    res.status(200).render('index');
-};
 const sendLogin = (req, res) => {
     res.status(200).render('login');
 };
@@ -71,7 +68,6 @@ const sendHome = (req, res) => {
 
 
 module.exports = {
-    sendIndex,
     sendLogin,
     sendRegister,
     sendHome,
