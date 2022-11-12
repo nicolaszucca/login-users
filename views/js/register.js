@@ -21,7 +21,7 @@ form.addEventListener('submit', async function (event) {
 
     //POST
     try {
-        const res = await fetch(`http://localhost:8080/users/register`, {
+        const res = await fetch(`http://localhost:8080/register`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -92,7 +92,7 @@ function controllerErrorsResponse(user, count) {
         removeErrors();
         createAndShowMsg(0, 'creado exitosamente!');
         setTimeout(function () {
-            window.location = 'http://localhost:8080/users/home';
+            window.location = 'http://localhost:8080/home';
         }, 1000);
     };
 };

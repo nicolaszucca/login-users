@@ -11,7 +11,7 @@ form.addEventListener('submit', async function (event) {
     let dataObj = convertFormDataToObj(data);
     let dataObjJSON = JSON.stringify(dataObj);
     try {
-        const res = await fetch(`http://localhost:8080/users/login`, {
+        const res = await fetch(`http://localhost:8080/login`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -46,7 +46,7 @@ function controllerErrors(user) {
         form.reset();
         pResponse.innerText = 'Loading...';
         setTimeout(function () {
-            window.location = 'http://localhost:8080/users/home'
+            window.location = 'http://localhost:8080/home'
         }, 1000);
     };
 };

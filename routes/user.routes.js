@@ -2,7 +2,7 @@ const { check } = require('express-validator');
 const express = require('express');
 
 const validarCampos = require('../middlewares/field-validation')
-const { sendIndex, sendLogin, sendRegister, sendHome, usersGet, userLogin, usersPost, userLogOut } = require('../controllers/user.controllers');
+const { sendLogin, sendRegister, sendHome, usersGet, userLogin, usersPost, userLogOut } = require('../controllers/user.controllers');
 const { isValidAge, isValidPassword, isUniqueEmail, isValidName, isValidSurname, emailInDB, isSamePassword } = require('../helpers/validations');
 
 
@@ -30,8 +30,7 @@ router.get('/logout', userLogOut);
 
 
 //Static content
-router.get('/', sendIndex);
-router.get('/login', sendLogin);
+router.get('/', sendLogin);
 router.get('/register', sendRegister);
 router.get('/home', sendHome);
 
