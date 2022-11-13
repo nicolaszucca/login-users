@@ -5,23 +5,31 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/e6989afcf9.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="./assets/styles/home-style.css">
     <title>Home page</title>
 </head>
 
 <body>
-    <h1>HOME PAGE</h1>
+    <section>
+        <div class="container">
 
-    <% if (name) { %>
-        <p> Connected user: <%= name %>
-        </p>
-        <button id="btn-logout">Logout</button>
-        <%} else { %>
-            <p> You must <a href="/">log in</a> </p>
+            <h1>HOME PAGE</h1>
 
-            <% } %>
+            <% if (name) { %>
+                <p> Connected user: <span>
+                        <%= name %>
+                    </span>
+                </p>
+                <button id="btn-logout"><i class="fa-solid fa-right-from-bracket"></i></button>
+                <%} else { %>
+                    <p> You must <a href="/">log in</a> for see this page</p>
 
+                    <% } %>
 
-                <script src="/js/home.js"></script>
+        </div>
+    </section>
+    <script src="/js/home.js"></script>
 </body>
 
 </html>

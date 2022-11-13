@@ -1,0 +1,47 @@
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-decoration: none;
+  border: none;
+  outline: none;
+  font-family: "Courier New", Courier, monospace;
+}
+
+body {
+  background-image: url("https://cdn.pizap.com/pizapfiles/images/photo_backgrounds_textures_app05.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 40% 60%;
+  height: 90vh;
+  z-index: 0;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.container h1 {
+  font-size: 56px;
+  margin: 20px;
+}
+
+.container p {
+  font-size: 25px;
+}
+
+.container p span {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.container button {
+  background-color: transparent;
+  margin-top: 20px;
+  font-size: 20px;
+  cursor: pointer;
+}/*# sourceMappingURL=home-style.css.map */
